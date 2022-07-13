@@ -1,0 +1,40 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /departments
+
+management:
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+
+
+spring:
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  application:
+    name: DEPARTMENT-SERVICE
+  config:
+    import: configserver:http://localhost:8888
+  datasource:
+    # url: jdbc:h2:mem:mydb
+    url: jdbc:h2:file:C:/data/sample
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    jpa:
+      spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
