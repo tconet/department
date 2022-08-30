@@ -28,7 +28,7 @@ public class GlobalControllerAdvice {
     @ResponseBody
     /**
      * <p>
-     * This method is the main handler for all method argument errors. Generally, all er        ror h   andled
+     * This method is the main handler for all method argument errors. Generally, all error handled
      * by this method will come from the controller layer of this project.
      * @param ex {@See MethodArgumentNotValidException}
      */

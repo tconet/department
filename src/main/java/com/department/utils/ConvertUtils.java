@@ -1,7 +1,5 @@
 package com.department.utils;
 
-import com.department.dto.DepartmentDTO;
-import com.department.entity.Department;
 import org.springframework.beans.BeanUtils;
 
 public class ConvertUtils {
