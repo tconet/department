@@ -3,25 +3,19 @@ server:
   servlet:
     context-path: /departments
 
-management:
-  endpoint:
-    health:
-      show-details: always
-      probes:
-        enabled: true
-  endpoints:
-    web:
-      exposure:
-        include:
-          - '*'
+application:
+  description: @project.description@
+  version: @project.version@
 
+springdoc:
+  show-actuator: true
 
 spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
   h2:
     console:
       enabled: true
@@ -29,7 +23,7 @@ spring:
   application:
     name: DEPARTMENT-SERVICE
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:http://${CONFIG-SERVER}:8888
   datasource:
     # url: jdbc:h2:mem:mydb
     url: jdbc:h2:file:C:/data/sample

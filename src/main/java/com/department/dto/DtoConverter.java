@@ -1,18 +1,15 @@
 package com.department.dto;
 
-
-import com.department.utils.ConvertUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.core.GenericTypeResolver;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 public class DtoConverter<D, B> implements IDtoConverter<D, B> {
 
+    @JsonIgnore
     private ModelMapper mapper = new ModelMapper();
 
     public DtoConverter() {
