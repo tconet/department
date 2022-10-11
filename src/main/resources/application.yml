@@ -10,7 +10,16 @@ application:
 springdoc:
   show-actuator: true
 
+pubsub:
+  topic-id: rateio
+  subscription-id: costcenter
+
 spring:
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:despesas-1616021701603-42ae4b39bb5b.json
+      project-id: despesas-1616021701603
   jpa:
     defer-datasource-initialization: true
     hibernate:

@@ -23,32 +23,32 @@ public class GlobalControllerAdvice {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
     /**
      * <p>
      * This method is the main handler for all method argument errors. Generally, all error handled
      * by this method will come from the controller layer of this project.
      * @param ex {@See MethodArgumentNotValidException}
      */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
         return processValidationError(ex);
     }
 
-    @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
     /**
      * This method is the main handler for all Business layer errors. Generally, all error handled
      * by this method will come from the service layer of this project.
      * @param ex {@See BusinessException}
      */
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
     public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
 
         Map<String, String> errors = new HashMap<>();
         Locale locale = LocaleContextHolder.getLocale();
-        String msg = messageSource.getMessage(Objects.requireNonNull(ex.getMessage()), ex.args.toArray(), locale);
+        String msg = ex.translate(messageSource);
         errors.put("errorMessage", msg);
         return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
     }

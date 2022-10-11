@@ -39,7 +39,6 @@ public class DepartmentController {
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = DepartmentDTO.class)) }),
         @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content)})
     @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<DepartmentDTO> save(
             @Parameter(description = "department object to be created")
