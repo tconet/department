@@ -1,6 +1,7 @@
 package com.department.entity;
 
 
+import com.department.entity.auditing.Auditable;
 import com.department.types.CostCenterStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class CostCenter {
+public class CostCenter extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

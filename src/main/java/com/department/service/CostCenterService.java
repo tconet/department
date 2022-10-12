@@ -64,8 +64,7 @@ public class CostCenterService extends SearchService<CostCenter> {
         // UPDATE CASE...
         // In this case, update all new information's and save.
         CostCenter toUpdate = optional.get();
-        entity.setId(toUpdate.getId());
-        BeanUtils.copyProperties(entity, toUpdate);
+        BeanUtils.copyProperties(entity, toUpdate, "id");
         return repository.save(toUpdate);
     }
 
