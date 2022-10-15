@@ -2,14 +2,15 @@ package com.department.types;
 
 /**
  * <p>
- *  This Enum represents all available status for {@link com.department.entity.CostCenter}
+ *  This Enum represents all available status for {@link com.department.entity.Resource}
  *  for now, we have the following values:
- *  - OPEN
- *  - CLOSED
+ *  - HUMAN
+ *  - COMPANY
+ *  - PHYSICAL
  */
-public enum CostCenterStatus {
+public enum ResourceStatus {
 
-    OPEN("open"), CLOSED("closed");
+    HUMAN("human"), COMPANY("company"), PHYSICAL("physical");
 
     /** Enum */
     private String status;
@@ -21,19 +22,19 @@ public enum CostCenterStatus {
      *  this enum.
      * @param status
      */
-    private CostCenterStatus(String status) {
+    private ResourceStatus(String status) {
         this.status = status;
     }
 
     /**
      * <p>
      *  Check if the string value informed is compatible with the values
-     *  exposed by this enum {@link CostCenterStatus}
-     * @param value Must he one of {@link CostCenterStatus}
-     * @return true if is a valid value, otherwise, fale.
+     *  exposed by this enum {@link ResourceStatus}
+     * @param value Must he one of {@link ResourceStatus}
+     * @return true if is a valid value, otherwise, false.
      */
     public static boolean isValid(String value) {
-        for (CostCenterStatus status : values()) {
+        for (ResourceStatus status : values()) {
             if (status.name().equalsIgnoreCase(value))
                 return true;
         }

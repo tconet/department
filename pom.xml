@@ -75,7 +75,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<!-- Apache Commons Validator -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.7</version>
+		</dependency>
 		<!-- Database Driver, in memory database -->
 		<dependency>
 			<groupId>com.h2database</groupId>

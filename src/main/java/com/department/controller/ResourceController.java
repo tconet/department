@@ -1,9 +1,9 @@
 package com.department.controller;
 
-import com.department.dto.costcenter.CostCenterDTO;
-import com.department.entity.CostCenter;
+import com.department.dto.resource.ResourceDTO;
+import com.department.entity.Resource;
 import com.department.entity.query.SearchRequest;
-import com.department.service.CostCenterService;
+import com.department.service.ResourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,13 +27,13 @@ import java.util.List;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Cost Center (Centro de Custo)", description = "The Cost Center REST API with all available services")
-@RequestMapping("costCenter")
-public class CostCenterController {
+@Tag(name = "Resource (Recurso)", description = "The Resource REST API with all available services")
+@RequestMapping("resource")
+public class ResourceController {
 
-    private final CostCenterService service;
+    private final ResourceService service;
 
-    @Operation(summary = "Generic search for cost center entity")
+    @Operation(summary = "Generic search for cost resource entity")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "302",
@@ -41,12 +41,12 @@ public class CostCenterController {
                     content = {
                     @Content(
                             mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = CostCenterDTO.class)))})
+                            array = @ArraySchema(schema = @Schema(implementation = ResourceDTO.class)))})
              })
     @PostMapping(value = "/search")
     public ResponseEntity<Page> search(@RequestBody SearchRequest request) {
-        Page<CostCenter> entities = service.search(request);
-        List<CostCenterDTO> dtos = new CostCenterDTO().toDTOs(entities.getContent(), CostCenterDTO.class);
+        Page<Resource> entities = service.search(request);
+        List<ResourceDTO> dtos = new ResourceDTO().toDTOs(entities.getContent(), ResourceDTO.class);
         Page page = new PageImpl(dtos, entities.getPageable(), entities.getTotalElements());
         return new ResponseEntity<>(page, HttpStatus.FOUND);
     }

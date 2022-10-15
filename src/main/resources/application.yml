@@ -11,8 +11,9 @@ springdoc:
   show-actuator: true
 
 pubsub:
-  topic-id: rateio
-  subscription-id: costcenter
+  costcenter-subscription-id: costcenter-sub
+  resource-subscription-id: resource-sub
+  costcenter-resource-subscription-id: costcenter-resource-sub
 
 spring:
   cloud:
@@ -23,7 +24,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: false
   h2:
     console:
@@ -35,7 +36,8 @@ spring:
     import: configserver:http://${CONFIG-SERVER}:8888
   datasource:
     # url: jdbc:h2:mem:mydb
-    url: jdbc:h2:file:C:/data/sample
+    # jdbc:h2:file:~/h2/department
+    url: jdbc:h2:file:~/h2/department
     username: sa
     password: password
     driverClassName: org.h2.Driver

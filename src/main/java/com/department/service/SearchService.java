@@ -1,6 +1,5 @@
 package com.department.service;
 
-import com.department.entity.CostCenter;
 import com.department.entity.query.SearchRequest;
 import com.department.entity.query.SearchSpecification;
 import org.springframework.data.domain.Page;
@@ -16,7 +15,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @param <B> Must be the child entity class type. Generally, one of
  *            those class that belongs the com.department.entity.* package
  */
-public class SearchService<B> implements IService<B>  {
+public class SearchService<B> implements IServiceSearch<B> {
 
     private JpaSpecificationExecutor<B> repository;
 

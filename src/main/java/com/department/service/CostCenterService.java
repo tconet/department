@@ -1,7 +1,9 @@
 package com.department.service;
 
 import com.department.entity.CostCenter;
+import com.department.exceptions.BusinessException;
 import com.department.repository.ICostCenterRepository;
+import com.department.types.CostCenterStatus;
 import com.department.utils.FieldValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,9 +50,8 @@ public class CostCenterService extends SearchService<CostCenter> {
     @Transactional
     public CostCenter createOrUpdate(CostCenter entity) {
 
-        // Use this utility to validate if all mandatory fields has a value.
-        // In this case, the 'id' can be nul
-        FieldValidatorUtil.validateMandatoryFields(entity, CostCenter.class, Set.of("id"));
+        // Apply all necessary validations before save.
+        validateBeforeSave(entity);
 
         // Check if the entity already exists based on its code.
         // As we're not the responsible for create this kind of entity,
@@ -69,5 +70,26 @@ public class CostCenterService extends SearchService<CostCenter> {
     }
 
     // Private
+
+    /**
+     * <p>
+     *  Do all necessary validation that must be checked before save a {@link CostCenter}
+     *  First we check if all mandatory field were informed. After that, we check if the
+     *  status has one of those expected values based on {@link CostCenterStatus}
+     *
+     * @param entity @see {@link CostCenter}
+     * @throws BusinessException Throws if one of those validation went wrong.
+     */
+    private void validateBeforeSave(CostCenter entity) throws BusinessException {
+
+        // Use this utility to validate if all mandatory fields has a value.
+        // In this case, the 'id' can be null
+        FieldValidatorUtil.validateMandatoryFields(entity, CostCenter.class, Set.of("id"));
+
+        // Check if the informed status has a valid value.
+        if (!CostCenterStatus.isValid(entity.getStatus())) {
+            throw new BusinessException("costcenter.invalid.status", entity.getStatus().toString());
+        }
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.department.service;
 
-import com.department.entity.CostCenter;
 import com.department.entity.query.SearchRequest;
 import org.springframework.data.domain.Page;
 
@@ -10,9 +9,8 @@ import org.springframework.data.domain.Page;
  * mechanism out of the box.
  * @param <B> Represents the final Entity class, any one present inside
  *            this path com.department.entity.*
- * @param <R> The final repository implementation.
  */
-public interface IService <B> {
+public interface IServiceSearch<B> {
 
     public Page<B> search(SearchRequest request);
 }
