@@ -31,8 +31,12 @@ public class Resource extends Auditable<String> {
     @Column( nullable = false, unique = true )
     private String email;
 
+    /** Resource document, can by anything (RG,CNPJ) */
+    @Column( nullable = false )
+    private String document;
+
     /** Status, must be one of those values @see {@link ResourceStatus}, default HUMAN */
-    @Column( nullable = false, columnDefinition = "varchar(255) default 'Human'")
+    @Column( nullable = false, columnDefinition = "varchar(255) default 'human'")
     private String status = ResourceStatus.HUMAN.toString();
 
 

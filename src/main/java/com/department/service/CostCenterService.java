@@ -2,7 +2,7 @@ package com.department.service;
 
 import com.department.entity.CostCenter;
 import com.department.exceptions.BusinessException;
-import com.department.repository.ICostCenterRepository;
+import com.department.repository.CostCenterRepository;
 import com.department.types.CostCenterStatus;
 import com.department.utils.FieldValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.Set;
 @Service
 public class CostCenterService extends SearchService<CostCenter> {
 
-    private final ICostCenterRepository repository;
+    private final CostCenterRepository repository;
 
     /**
      * <p>
@@ -34,7 +34,7 @@ public class CostCenterService extends SearchService<CostCenter> {
      * @param repository In this case, must be an implementation of @see
      * {@link org.springframework.data.jpa.repository.JpaSpecificationExecutor}
      */
-    public CostCenterService(ICostCenterRepository repository) {
+    public CostCenterService(CostCenterRepository repository) {
         super(repository);
         this.repository = repository;
     }

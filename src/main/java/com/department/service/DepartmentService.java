@@ -4,7 +4,7 @@ import com.department.entity.Department;
 import com.department.entity.query.SearchRequest;
 import com.department.entity.query.SearchSpecification;
 import com.department.exceptions.BusinessException;
-import com.department.repository.IDepartmentRepository;
+import com.department.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +31,7 @@ public class DepartmentService {
 
     // Example of Dependency Injection and Inversion of Control
     /** The department repository */
-    private final IDepartmentRepository repository;
+    private final DepartmentRepository repository;
 
     /**
      * <p>

@@ -1,11 +1,11 @@
 package com.department.controller;
 
+import com.department.dto.costcenterresource.CostcenterResourceFilterDTO;
 import com.department.exceptions.BusinessException;
 import com.department.model.SimpleCostCenter;
 import com.department.service.CostcenterResourceService;
 import com.department.types.CostCenterStatus;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,9 +16,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,21 +33,28 @@ public class CostcenterResourceController {
 
     private final CostcenterResourceService service;
 
-    @Operation(summary = "List all Cost Center by Approver. We must provide the approver's email")
-    @Parameter(name = "email", description = "approver's email", allowEmptyValue = false)
-    @Parameter(name = "status", description = "cost center status", allowEmptyValue = false, array = @ArraySchema(schema = @Schema(implementation = CostCenterStatus.class)))
+    @Operation(summary = "Generic search for list Cost Center based filter object")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "302", description = "found cost center relationships for the informed approver", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = SimpleCostCenter.class)))}),
-            @ApiResponse(responseCode = "404", description = "No Cost Center found based on approver's email", content = @Content)})
-    @GetMapping("/findByEmail")
-    public ResponseEntity<List<SimpleCostCenter>> findByEmail(@RequestParam String email, @RequestParam String status) {
+            @ApiResponse(
+                    responseCode = "302",
+                    description = "found cost centers",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = SimpleCostCenter.class)))})
+    })
+    @PostMapping("/search")
+    public ResponseEntity<List<SimpleCostCenter>> search(@RequestBody CostcenterResourceFilterDTO filter) {
 
-        String vStatus = status.trim().toLowerCase();
+        String vStatus = filter.getStatus().trim().toLowerCase();
         if (!CostCenterStatus.isValid(vStatus))
             throw new BusinessException("costcenter.invalid.status", vStatus);
 
-        Optional<List<SimpleCostCenter>> entities = service.findAllCostCenterByApprover(email, vStatus);
+        Optional<List<SimpleCostCenter>> entities = service.
+                findAllCostCenterByApprover(
+                        filter.getEmail(), filter.getCode(),
+                        filter.getName(), vStatus, filter.isApprover());
+
         return new ResponseEntity<>(entities.get(), HttpStatus.FOUND);
     }
 }

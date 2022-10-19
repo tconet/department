@@ -5,9 +5,9 @@ import com.department.entity.CostcenterResource;
 import com.department.entity.Resource;
 import com.department.exceptions.BusinessException;
 import com.department.model.SimpleCostCenter;
-import com.department.repository.IConstcenterResourceRepository;
-import com.department.repository.ICostCenterRepository;
-import com.department.repository.IResourceRepository;
+import com.department.repository.ConstcenterResourceRepository;
+import com.department.repository.CostCenterRepository;
+import com.department.repository.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,9 +30,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CostcenterResourceService  {
 
-    private final IConstcenterResourceRepository repository;
-    private final ICostCenterRepository costCenterRepository;
-    private final IResourceRepository resourceRepository;
+    private final ConstcenterResourceRepository repository;
+    private final CostCenterRepository costCenterRepository;
+    private final ResourceRepository resourceRepository;
 
     /**
      * <p>
@@ -69,12 +69,19 @@ public class CostcenterResourceService  {
     /**
      * <p>
      *  Search for all relationship between {@link CostCenter} and {@link Resource}
-     *  based on the informed approver's e-mail.
+     *  based on the informed parameters.
+     *
      * @param email The resource email
      * @return A list of {@link CostcenterResource}
+     * @param email The resource's e-mail (We're using LIKE to search this field)
+     * @param code The Cost Center code (We're using LIKE to search this field)
+     * @param name The Cost Center name (We're using LIKE to search this field)
+     * @param status Must be one of those {@link com.department.types.CostCenterStatus}
+     * @param isApprover If the resource is the approver or not.
+     * @return A list of {@link SimpleCostCenter}
      */
-    public Optional<List<SimpleCostCenter>> findAllCostCenterByApprover(String email, String status) {
-        return repository.findAllCostCenterByApprover(email, status);
+    public Optional<List<SimpleCostCenter>> findAllCostCenterByApprover(String email, String code, String name, String status, Boolean isApprover) {
+        return repository.findAllCostCenterByApprover(email, code, name, status, isApprover);
     }
 
     // Private

@@ -2,7 +2,7 @@ package com.department.service;
 
 import com.department.entity.Resource;
 import com.department.exceptions.BusinessException;
-import com.department.repository.IResourceRepository;
+import com.department.repository.ResourceRepository;
 import com.department.types.ResourceStatus;
 import com.department.utils.FieldValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.Set;
 @Service
 public class ResourceService extends SearchService<Resource> {
 
-    private final IResourceRepository repository;
+    private final ResourceRepository repository;
 
     /**
      * <p>
@@ -26,7 +26,7 @@ public class ResourceService extends SearchService<Resource> {
      * class provides the correct instance of the desired repository interface.
      * @param repository  Ony implementation of {@link JpaSpecificationExecutor}
      */
-    public ResourceService(IResourceRepository repository) {
+    public ResourceService(ResourceRepository repository) {
         super(repository);
         this.repository = repository;
     }

@@ -22,7 +22,9 @@ public class ResourceDTO extends DtoConverter<ResourceDTO, Resource> {
     private String name;
     @Schema(name = "email", defaultValue="examplo@cesar.org.br")
     private String email;
-    @Schema(name = "status", defaultValue="Human")
+    @Schema(name = "document", defaultValue="98162387480")
+    private String document;
+    @Schema(name = "status", defaultValue="human")
     private String status;
 
 }
