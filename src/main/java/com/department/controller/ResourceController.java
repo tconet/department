@@ -33,6 +33,7 @@ public class ResourceController {
 
     private final ResourceService service;
 
+
     @Operation(summary = "Generic search for cost resource entity")
     @ApiResponses(value = {
             @ApiResponse(

@@ -5,7 +5,7 @@ import com.department.entity.CostcenterResource;
 import com.department.entity.Resource;
 import com.department.exceptions.BusinessException;
 import com.department.model.SimpleCostCenter;
-import com.department.repository.ConstcenterResourceRepository;
+import com.department.repository.CostcenterResourceRepository;
 import com.department.repository.CostCenterRepository;
 import com.department.repository.ResourceRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CostcenterResourceService  {
 
-    private final ConstcenterResourceRepository repository;
+    private final CostcenterResourceRepository repository;
     private final CostCenterRepository costCenterRepository;
     private final ResourceRepository resourceRepository;
 
@@ -114,7 +114,7 @@ public class CostcenterResourceService  {
         Optional<CostCenter> costCenter = costCenterRepository.findOneByCode(entity.getCostCenter().getCode());
         if ( costCenter.isEmpty() )
             // In this case, throw the exception
-            throw new BusinessException("costcenter.not.found.by.code", entity.getCostCenter().getCode());
+            throw new BusinessException("costCenter.not.found.by.code", entity.getCostCenter().getCode());
 
         // Second validation: Resource must exist by email
         Optional<Resource>  resource = resourceRepository.findOneByEmail(entity.getResource().getEmail());

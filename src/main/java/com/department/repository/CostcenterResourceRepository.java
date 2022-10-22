@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ConstcenterResourceRepository extends JpaRepository<CostcenterResource, Long>, CustomCostcenterResourceRepository {
+public interface CostcenterResourceRepository extends JpaRepository<CostcenterResource, Long>, CustomCostcenterResourceRepository {
 
     /**
      * <p>

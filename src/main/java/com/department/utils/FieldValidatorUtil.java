@@ -10,6 +10,19 @@ public class FieldValidatorUtil {
 
     /**
      * <p>
+     *  This is just an Overhead for validateMandatoryFields() used when all
+     *  fields of a specific object is mandatory, so in this case, you don't
+     *  need to provide a list of exceptions to not consider.
+     *
+     * @param entity Can be any kind of {@link Object}
+     * @param toClazz Must be the class of the entity parameter
+     */
+    public static void validateMandatoryFields(Object entity, Class toClazz) {
+        validateMandatoryFields(entity, toClazz, Set.of(""));
+    }
+
+    /**
+     * <p>
      *  This utility function uses java reflection to introspect all fields
      *  into the informed object and search for those one with null value.
      *

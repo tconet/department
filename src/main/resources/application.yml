@@ -8,12 +8,14 @@ application:
   version: @project.version@
 
 springdoc:
-  show-actuator: true
+  show-actuator: false
+
 
 pubsub:
   costcenter-subscription-id: costcenter-sub
   resource-subscription-id: resource-sub
   costcenter-resource-subscription-id: costcenter-resource-sub
+  contract-subscription-id: contract-sub
 
 spring:
   cloud:

@@ -88,7 +88,7 @@ public class CostCenterService extends SearchService<CostCenter> {
 
         // Check if the informed status has a valid value.
         if (!CostCenterStatus.isValid(entity.getStatus())) {
-            throw new BusinessException("costcenter.invalid.status", entity.getStatus().toString());
+            throw new BusinessException("costCenter.invalid.status", entity.getStatus().toString());
         }
     }
 

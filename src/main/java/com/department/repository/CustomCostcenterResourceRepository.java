@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /**
  * <p>
- *  Composite repository interface, we aggregate more power to {@link ConstcenterResourceRepository}
+ *  Composite repository interface, we aggregate more power to {@link CostcenterResourceRepository}
  */
 public interface CustomCostcenterResourceRepository {
 

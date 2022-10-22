@@ -64,11 +64,21 @@ public class CustomCostcenterResourceRepositoryImpl implements CustomCostcenterR
 
         // GROUP BY section.
         select.append(from);
-        String groupBy = " GROUP BY cr.costCenter.code, cr.costCenter.name, cr.costCenter.branch_name, cr.costCenter.status, cr.isApprover, cr.resource.email ORDER BY cr.costCenter.name";
+        String groupBy = " GROUP BY cr.costCenter.code, cr.costCenter.name, cr.costCenter.branch_name, cr.costCenter.status, cr.isApprover, cr.resource.email";
         select.append(groupBy);
+
+        // ORDER BY section.
+        String orderBy = " ORDER BY cr.costCenter.name";
+        select.append(orderBy);
 
         // Put all together and execute the query.
         Query<SimpleCostCenter> query = session.createQuery(select.toString());
+        // TODO: to implement pagination, we must add the following
+        //  .setFirstResult(0)
+        //  .setMaxResults(10)
+        //  .getResultList();
+        //  And also pass the Pageable object into method parameter
+        //  @see SearchSpecification for pagination example
         List<SimpleCostCenter> results = query.list();
         return Optional.of(results);
     }
