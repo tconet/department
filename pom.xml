@@ -11,8 +11,8 @@
 	<groupId>com.department</groupId>
 	<artifactId>department</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Department</name>
-	<description>Department Microservice</description>
+	<name>Sharing</name>
+	<description>Resource Sharing Microservice</description>
 	<properties>
 		<java.version>19</java.version>
 		<springdoc.version>1.6.11</springdoc.version> <!-- swagger -->
