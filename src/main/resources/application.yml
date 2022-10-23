@@ -1,20 +1,33 @@
+# Application HTTP Server Config
+# Set the server PORT and Root path
 server:
   port: 8081
   servlet:
     context-path: /sharing
 
+# Application
+# Give the name and a description,
+# those values came from what is configured on .pom file
 application:
   description: @project.description@
   version: @project.version@
 
+# Spring DOCS. (Swagger)
+# In this we're telling swagger to not show the actuator paths
 springdoc:
   show-actuator: false
 
-# GCP Pub/Sub: All Configurations (Project ID and Subscriptions)
+# GCP (Google Cloud Platform)
+# Pub/Sub: All Configurations (Project ID and Subscriptions)
+# Here we have all subscriptions for:
+# Cost Center
+# Cost Center x Resource
+# Resource
+# Contract
 pubsub:
   costcenter-subscription-id: costcenter-sub
-  resource-subscription-id: resource-sub
   costcenter-resource-subscription-id: costcenter-resource-sub
+  resource-subscription-id: resource-sub
   contract-subscription-id: contract-sub
 
 spring:
@@ -27,17 +40,31 @@ spring:
     config:
       enabled: false
       # When config server is enabled, we need to uncomment this line below.
-      # this will set where is the config server HOST.
+      # this will tell where the config server HOST is.
       # import: configserver:http://${CONFIG-SERVER}:8888
-  # START: - GCP Config (Google Cloud Platform)
+
+  # GCP Config (Google Cloud Platform)
+  # Those are the GCP credentials to use te Pub/Sub message broker
+  # In develop mode, is safe to provide a local .json file with the service authorities
+  # We also need to provide the project id.
     gcp:
       credentials:
         location: classpath:despesas-1616021701603-42ae4b39bb5b.json
       project-id: despesas-1616021701603
+
   # START: - JPA Data Base
+  # For now, we're using and in memory database, just to go fast in this beginning
+  # But soon, we'll change the driver for PostgresSQL
+  # Also for simplicity, we enabled the H2 console, that will be available as soon as
+  # the application in running
   jpa:
     defer-datasource-initialization: true
     hibernate:
+      # DDL Options
+      # validate: validate the schema, makes no changes to the database.
+      # update: update the schema (Current). Good for avoiding the data lose.
+      # create: creates the schema, destroying previous data.
+      # create-drop: drop the schema at the end of the session
       ddl-auto: update
     show-sql: false
   h2:
@@ -47,8 +74,9 @@ spring:
   application:
     name: DEPARTMENT-SERVICE
   datasource:
+    # If tou want to use an ephemeral database with all data in memory
+    # just uncomment the line below:
     # url: jdbc:h2:mem:sharing
-    # jdbc:h2:file:~/h2/department
     url: jdbc:h2:file:~/h2/sharing
     username: sa
     password: password
