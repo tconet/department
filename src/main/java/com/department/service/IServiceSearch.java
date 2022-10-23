@@ -12,5 +12,5 @@ import org.springframework.data.domain.Page;
  */
 public interface IServiceSearch<B> {
 
-    public Page<B> search(SearchRequest request);
+    Page<B> search(SearchRequest request);
 }

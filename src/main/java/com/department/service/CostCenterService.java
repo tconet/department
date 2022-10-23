@@ -17,7 +17,6 @@ import java.util.Set;
  * <p>
  *  This class represents the business layer of {@link com.department.entity.CostCenter}
  *  entity. Here we must ensure all rules specified to control a Const Center.
- *
  *  Because of the nature of the business, we'll not provide a full CRUD operation
  *  under this entity, all information about it will come from integration.
  */
@@ -45,10 +44,9 @@ public class CostCenterService extends SearchService<CostCenter> {
      * As main rule, if the field CODE does not exist into our base, means that
      * it's a new one, otherwise, means that we must update all incoming data.
      * @param entity @see {@link CostCenter}
-     * @return The @see {@link CostCenter} with all new information's
      */
     @Transactional
-    public CostCenter createOrUpdate(CostCenter entity) {
+    public void createOrUpdate(CostCenter entity) {
 
         // Apply all necessary validations before save.
         validateBeforeSave(entity);
@@ -60,13 +58,14 @@ public class CostCenterService extends SearchService<CostCenter> {
         Optional<CostCenter> optional = repository.findOneByCode(entity.getCode());
         if ( optional.isEmpty() ) {
             // NEW ONE CASE... we have nothing left to validate.
-            return repository.save(entity);
+            repository.save(entity);
+            return;
         }
         // UPDATE CASE...
         // In this case, update all new information's and save.
         CostCenter toUpdate = optional.get();
         BeanUtils.copyProperties(entity, toUpdate, "id");
-        return repository.save(toUpdate);
+        repository.save(toUpdate);
     }
 
     // Private
@@ -88,7 +87,7 @@ public class CostCenterService extends SearchService<CostCenter> {
 
         // Check if the informed status has a valid value.
         if (!CostCenterStatus.isValid(entity.getStatus())) {
-            throw new BusinessException("costCenter.invalid.status", entity.getStatus().toString());
+            throw new BusinessException("costCenter.invalid.status", entity.getStatus());
         }
     }
 

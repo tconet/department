@@ -3,7 +3,6 @@ package com.department.controller;
 import com.department.entity.CostCenter;
 import com.department.exceptions.BusinessException;
 import com.department.service.CostCenterService;
-import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.cloud.spring.pubsub.core.PubSubTemplate;
 import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 import com.google.gson.Gson;
@@ -23,9 +22,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CostCenterPubSubConsumerController {
 
-    private CostCenterService service;
-    private MessageSource messageSource;
-    private String subscription;
+    private final CostCenterService service;
+    private final MessageSource messageSource;
+    private final String subscription;
 
     public CostCenterPubSubConsumerController(
             CostCenterService service,
@@ -47,7 +46,6 @@ public class CostCenterPubSubConsumerController {
      *  {@link com.department.entity.CostCenter}
      *
      * @param pubSubTemplate @see {@link PubSubTemplate}
-     * @return @see {@link Subscriber}
      */
     private void startListening(PubSubTemplate pubSubTemplate) {
 

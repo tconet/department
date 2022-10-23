@@ -26,7 +26,6 @@ public class CustomCostcenterResourceRepositoryImpl implements CustomCostcenterR
      *  This method is intended to be some kind of generic search to find some {@link com.department.entity.CostCenter}
      *  based on it's relationship with {@link com.department.entity.Resource}. It's possible to omit some fields on
      *  parameter, in this case, we'll not consider those values to accomplish the search.
-     *
      *  In this implementation, we're using the {@link EntityManager} to build a generic search through
      *  composition interface. We're also creating a result transformer to summarize the result based
      *  a specific model {@link SimpleCostCenter}
@@ -39,7 +38,7 @@ public class CustomCostcenterResourceRepositoryImpl implements CustomCostcenterR
      * @return A list of {@link SimpleCostCenter}
      */
     @Override
-    public Optional<List<SimpleCostCenter>> findAllCostCenterByApprover(String email, String code, String name, String status, Boolean isApprover) {
+    public Optional<List> findAllCostCenterByApprover(String email, String code, String name, String status, Boolean isApprover) {
 
         // Get the session from entity manager.
         Session session = entityManager.unwrap(Session.class);
@@ -50,17 +49,17 @@ public class CustomCostcenterResourceRepositoryImpl implements CustomCostcenterR
 
         // FROM section
         StringBuilder from = new StringBuilder();
-        from.append(" FROM CostcenterResource AS cr WHERE cr.isApprover = " + isApprover.toString());
+        from.append(" FROM CostcenterResource AS cr WHERE cr.isApprover = ").append(isApprover.toString());
 
         // AND options.
         if (!Objects.isNull(email) && !email.trim().isEmpty())
-            from.append(" AND cr.resource.email LIKE " + StringUtils.quote(email+"%"));
+            from.append(" AND cr.resource.email LIKE ").append(StringUtils.quote(email + "%"));
         if (!Objects.isNull(code) && !code.trim().isEmpty())
-            from.append(" AND cr.costCenter.code LIKE " + StringUtils.quote(code+"%"));
+            from.append(" AND cr.costCenter.code LIKE ").append(StringUtils.quote(code + "%"));
         if (!Objects.isNull(name) && !name.trim().isEmpty())
-            from.append(" AND cr.costCenter.name LIKE " + StringUtils.quote(name+"%"));
+            from.append(" AND cr.costCenter.name LIKE ").append(StringUtils.quote(name + "%"));
         if (!Objects.isNull(status) && !status.trim().isEmpty())
-            from.append(" AND cr.costCenter.status = " + StringUtils.quote(status) );
+            from.append(" AND cr.costCenter.status = ").append(StringUtils.quote(status));
 
         // GROUP BY section.
         select.append(from);
@@ -72,14 +71,14 @@ public class CustomCostcenterResourceRepositoryImpl implements CustomCostcenterR
         select.append(orderBy);
 
         // Put all together and execute the query.
-        Query<SimpleCostCenter> query = session.createQuery(select.toString());
+        Query query = session.createQuery(select.toString());
         // TODO: to implement pagination, we must add the following
         //  .setFirstResult(0)
         //  .setMaxResults(10)
         //  .getResultList();
         //  And also pass the Pageable object into method parameter
         //  @see SearchSpecification for pagination example
-        List<SimpleCostCenter> results = query.list();
+        List results = query.list();
         return Optional.of(results);
     }
 }

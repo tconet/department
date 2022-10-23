@@ -4,7 +4,6 @@ import com.department.dto.contract.ContractMessageDTO;
 import com.department.exceptions.BusinessException;
 import com.department.service.ContractService;
 import com.department.utils.FieldValidatorUtil;
-import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.cloud.spring.pubsub.core.PubSubTemplate;
 import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 import com.google.gson.Gson;
@@ -18,9 +17,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContractPubSubConsumerController {
 
-    private ContractService service;
-    private MessageSource messageSource;
-    private String subscription;
+    private final ContractService service;
+    private final MessageSource messageSource;
+    private final String subscription;
 
     public ContractPubSubConsumerController(
             ContractService service,
@@ -42,7 +41,6 @@ public class ContractPubSubConsumerController {
      *  {@link com.department.entity.Contract}
      *
      * @param pubSubTemplate @see {@link PubSubTemplate}
-     * @return @see {@link Subscriber}
      */
     private void startListening(PubSubTemplate pubSubTemplate) {
 

@@ -1,9 +1,8 @@
 package com.department.entity;
 
 import com.department.entity.auditing.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,7 +14,10 @@ import java.util.Objects;
  * some extra information, like a field the indicates if the
  * resource is or not the approval of a specific Cost Center.
  */
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,5 +47,18 @@ public class CostcenterResource extends Auditable<String> {
         if (Objects.isNull(resource) || Objects.isNull(resource.getEmail()))
             return false;
         return !resource.getEmail().isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        CostcenterResource that = (CostcenterResource) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -24,5 +24,5 @@ public interface CustomCostcenterResourceRepository {
      * @param isApprover If the resource is the approver or not.
      * @return A list of {@link SimpleCostCenter}
      */
-    public Optional<List<SimpleCostCenter>> findAllCostCenterByApprover(String email, String code, String name, String status, Boolean isApprover);
+     Optional<List> findAllCostCenterByApprover(String email, String code, String name, String status, Boolean isApprover);
 }

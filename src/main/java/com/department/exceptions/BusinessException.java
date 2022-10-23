@@ -30,7 +30,6 @@ public class BusinessException extends RuntimeException {
 
     public String translate(MessageSource messageSource) {
         Locale locale = LocaleContextHolder.getLocale();
-        String msg = messageSource.getMessage(Objects.requireNonNull(this.getMessage()), this.args.toArray(), locale);
-        return msg;
+        return messageSource.getMessage(Objects.requireNonNull(this.getMessage()), this.args.toArray(), locale);
     }
 }

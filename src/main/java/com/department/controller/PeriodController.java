@@ -23,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.List;
 
 @Log4j2
@@ -45,7 +44,7 @@ public class PeriodController {
     @ResponseBody
     public ResponseEntity<PeriodDTO> open(
             @Parameter(description = "period with all information to be opened")
-            @Valid @RequestBody PostPeriodDTO dto) throws ParseException {
+            @Valid @RequestBody PostPeriodDTO dto) {
 
         Period entity = dto.toBusiness(Period.class);
         entity = service.open(entity);
@@ -92,10 +91,10 @@ public class PeriodController {
                                     array = @ArraySchema(schema = @Schema(implementation = PeriodDTO.class)))})
     })
     @PostMapping(value = "/search")
-    public ResponseEntity<Page> search(@RequestBody SearchRequest request) {
+    public ResponseEntity<Page<PeriodDTO>> search(@RequestBody SearchRequest request) {
         Page<Period> entities = service.search(request);
         List<PeriodDTO> dtos = new PeriodDTO().toDTOs(entities.getContent(), PeriodDTO.class);
-        Page page = new PageImpl(dtos, entities.getPageable(), entities.getTotalElements());
+        Page<PeriodDTO> page = new PageImpl<>(dtos, entities.getPageable(), entities.getTotalElements());
         return new ResponseEntity<>(page, HttpStatus.FOUND);
     }
 

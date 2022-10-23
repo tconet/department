@@ -44,10 +44,10 @@ public class CostCenterController {
                             array = @ArraySchema(schema = @Schema(implementation = CostCenterDTO.class)))})
              })
     @PostMapping(value = "/search")
-    public ResponseEntity<Page> search(@RequestBody SearchRequest request) {
+    public ResponseEntity<Page<CostCenterDTO>> search(@RequestBody SearchRequest request) {
         Page<CostCenter> entities = service.search(request);
         List<CostCenterDTO> dtos = new CostCenterDTO().toDTOs(entities.getContent(), CostCenterDTO.class);
-        Page page = new PageImpl(dtos, entities.getPageable(), entities.getTotalElements());
+        Page<CostCenterDTO> page = new PageImpl<>(dtos, entities.getPageable(), entities.getTotalElements());
         return new ResponseEntity<>(page, HttpStatus.FOUND);
     }
 

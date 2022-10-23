@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 public class SearchService<B> implements IServiceSearch<B> {
 
-    private JpaSpecificationExecutor<B> repository;
+    private final JpaSpecificationExecutor<B> repository;
 
     /**
      * <p>
@@ -31,10 +31,9 @@ public class SearchService<B> implements IServiceSearch<B> {
 
     /**
      * Generic search engine, thanks to:
-     * https://blog.piinalpin.com/2022/04/searching-and-filtering-using-jpa-specification/
+     * <a href="https://blog.piinalpin.com/2022/04/searching-and-filtering-using-jpa-specification/">...</a>
      * On the link above, we'll find the best generic implementation of search criteria
      * specification for JPA.
-     *
      * {
      *     "filters": [
      *         {
@@ -54,8 +53,8 @@ public class SearchService<B> implements IServiceSearch<B> {
      *     "size": 10
      * }
      *
-     * @param request
-     * @return
+     * @param request @see {@link SearchService}
+     * @return @see {@link Page}
      */
     @Override
     public Page<B> search(SearchRequest request) {

@@ -27,31 +27,29 @@ public class ContractService {
      *  This method is intended to create or update a @see {@link Contract}
      *  Before save, we must check if the contract already exists based on
      *  cost center code, resource's email and contract's document.
-     *
      *  If found means that an update case, that in turn, we just can update
      *  two fields (document and isActive).
-     *
      *  For the create a new contract case, before save, we must check if the
      *  resource and the cost center exist, if not, an exception will be thrown
      *
      * @param entity @see {@link Contract}
-     * @return @see {@link Contract}
      */
-    public Contract createOrUpdate(Contract entity) {
+    public void createOrUpdate(Contract entity) {
 
         // Check if already exists, if true, means UPDATE
         Optional<Contract> contract = findContract(entity);
         if ( contract.isPresent() ) {
             // UPDATE CASE...
             contract.get().update(entity);
-            return repository.save(contract.get());
+            repository.save(contract.get());
+            return;
         }
         // CREATE CASE...
         // So, first we must fill the relationship fields
         // TODO: When a new contract arrives, means that we must
         //       create a new ResourceSharing
         fillRelationship(entity);
-        return repository.save(entity);
+        repository.save(entity);
     }
 
     // Private

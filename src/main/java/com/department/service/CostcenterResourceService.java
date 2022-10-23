@@ -21,7 +21,6 @@ import java.util.Optional;
  *  This class represents the business layer of {@link com.department.entity.CostcenterResource}
  *  entity. Here we must ensure all rules specified to control the relationship between
  *  those two entities {@link com.department.entity.CostCenter} and {@link com.department.entity.Resource}.
- *
  *  Because of the nature of the business, we'll not provide a full CRUD operation
  *  under this entity, all information about it will come from integration.
  */
@@ -36,16 +35,31 @@ public class CostcenterResourceService  {
 
     /**
      * <p>
+     *  Search for all relationship between {@link CostCenter} and {@link Resource}
+     *  based on the informed parameters.
+     *
+     * @param email The resource's e-mail (We're using LIKE to search this field)
+     * @param code The Cost Center code (We're using LIKE to search this field)
+     * @param name The Cost Center name (We're using LIKE to search this field)
+     * @param status Must be one of those {@link com.department.types.CostCenterStatus}
+     * @param isApprover If the resource is the approver or not.
+     * @return A list of {@link SimpleCostCenter}
+     */
+    public Optional<List> findAllCostCenterByApprover(String email, String code, String name, String status, Boolean isApprover) {
+        return repository.findAllCostCenterByApprover(email, code, name, status, isApprover);
+    }
+
+    /**
+     * <p>
      *  This method is intended to create or update a @see {@link CostcenterResource},
      *  but first we have to ensure some basic business rules, like, we can't have
      *  duplicated relationship, so if already exists, means that we'll just update
      *  the isApprover field, otherwise, we'll create a new one.
      *
      * @param entity @see {@link CostcenterResource}
-     * @return The @see {@link CostcenterResource} with all new information's
      */
     @Transactional
-    public CostcenterResource createOrUpdate(CostcenterResource entity) {
+    public void createOrUpdate(CostcenterResource entity) {
 
         // code and email must have value
         validateMandatoryFields(entity);
@@ -58,30 +72,13 @@ public class CostcenterResourceService  {
         if (optional.isEmpty()) {
             // NEW ON CASE: just save...
             fillRelationship(entity);
-            return repository.save(entity);
+            repository.save(entity);
+            return;
         }
         // UPDATE CASE: just update isApprover field
         CostcenterResource toUpdate = optional.get();
         toUpdate.setApprover(entity.isApprover());
-        return repository.save(toUpdate);
-    }
-
-    /**
-     * <p>
-     *  Search for all relationship between {@link CostCenter} and {@link Resource}
-     *  based on the informed parameters.
-     *
-     * @param email The resource email
-     * @return A list of {@link CostcenterResource}
-     * @param email The resource's e-mail (We're using LIKE to search this field)
-     * @param code The Cost Center code (We're using LIKE to search this field)
-     * @param name The Cost Center name (We're using LIKE to search this field)
-     * @param status Must be one of those {@link com.department.types.CostCenterStatus}
-     * @param isApprover If the resource is the approver or not.
-     * @return A list of {@link SimpleCostCenter}
-     */
-    public Optional<List<SimpleCostCenter>> findAllCostCenterByApprover(String email, String code, String name, String status, Boolean isApprover) {
-        return repository.findAllCostCenterByApprover(email, code, name, status, isApprover);
+        repository.save(toUpdate);
     }
 
     // Private

@@ -45,10 +45,10 @@ public class ResourceController {
                             array = @ArraySchema(schema = @Schema(implementation = ResourceDTO.class)))})
              })
     @PostMapping(value = "/search")
-    public ResponseEntity<Page> search(@RequestBody SearchRequest request) {
+    public ResponseEntity<Page<ResourceDTO>> search(@RequestBody SearchRequest request) {
         Page<Resource> entities = service.search(request);
         List<ResourceDTO> dtos = new ResourceDTO().toDTOs(entities.getContent(), ResourceDTO.class);
-        Page page = new PageImpl(dtos, entities.getPageable(), entities.getTotalElements());
+        Page<ResourceDTO> page = new PageImpl<>(dtos, entities.getPageable(), entities.getTotalElements());
         return new ResponseEntity<>(page, HttpStatus.FOUND);
     }
 

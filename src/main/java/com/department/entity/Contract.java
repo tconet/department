@@ -1,14 +1,16 @@
 package com.department.entity;
 
 import com.department.entity.auditing.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +29,7 @@ public class Contract extends Auditable<String> {
     @JoinColumn(name = "costcenter_id")
     private CostCenter costCenter;
 
-    /** Resource document, but can by anything, generally will be the internal company registration (Matricula) */
+    /** Resource document, but can be anything, generally will be the internal company registration (Matricula) */
     @Column( nullable = false )
     private String document;
 
@@ -56,4 +58,16 @@ public class Contract extends Auditable<String> {
         this.setPosition(entity.getPosition());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Contract contract = (Contract) o;
+        return id != null && Objects.equals(id, contract.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

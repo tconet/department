@@ -19,7 +19,7 @@ public class PostDepartmentDTO extends DtoConverter<PostDepartmentDTO, Departmen
     @Size(min = 2, message = "field.size")
     @NotEmpty(message = "field.name.mandatory")
     private String name;
-    @Schema(name = "address", required = false, defaultValue="First Street Avenue")
+    @Schema(name = "address", defaultValue="First Street Avenue")
     private String address;
     @Schema(name = "code", required = true, defaultValue="00002")
     @NotEmpty(message = "field.code.mandatory")

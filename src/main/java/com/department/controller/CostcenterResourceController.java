@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,17 +45,19 @@ public class CostcenterResourceController {
                                     array = @ArraySchema(schema = @Schema(implementation = SimpleCostCenter.class)))})
     })
     @PostMapping("/search")
-    public ResponseEntity<List<SimpleCostCenter>> search(@RequestBody CostcenterResourceFilterDTO filter) {
+    public ResponseEntity search(@RequestBody CostcenterResourceFilterDTO filter) {
 
         String vStatus = filter.getStatus().trim().toLowerCase();
         if (!CostCenterStatus.isValid(vStatus))
             throw new BusinessException("costcenter.invalid.status", vStatus);
 
-        Optional<List<SimpleCostCenter>> entities = service.
+        Optional<List> entities = service.
                 findAllCostCenterByApprover(
                         filter.getEmail(), filter.getCode(),
                         filter.getName(), vStatus, filter.isApprover());
 
+        if (entities.isEmpty())
+            entities = Optional.of(new ArrayList());
         return new ResponseEntity<>(entities.get(), HttpStatus.FOUND);
     }
 }

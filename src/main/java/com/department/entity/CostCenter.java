@@ -3,18 +3,21 @@ package com.department.entity;
 
 import com.department.entity.auditing.Auditable;
 import com.department.types.CostCenterStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * <p>
  *  Cost Center Entity (Centro de Custo).
  *  Means the place where some resources belongs.
  */
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,4 +45,16 @@ public class CostCenter extends Auditable<String> {
     @Column( nullable = false )
     private String branch_name;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        CostCenter that = (CostCenter) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

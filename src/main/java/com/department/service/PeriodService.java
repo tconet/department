@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -44,13 +43,13 @@ public class PeriodService extends SearchService<Period> {
      * @return a new opened {@link Period}
      */
     @Transactional
-    public Period open(Period entity) throws ParseException {
+    public Period open(Period entity) {
 
         // Dos not matter, must be Opened.
         entity.setStatus(PeriodStatus.OPENED.name());
 
         // We must ensure only one opened period at time.
-        mustsExistJustOneOpened(entity);
+        mustsExistJustOneOpened();
 
         // Validate some rules before save.
         entity.validateBeforeCreate();
@@ -109,7 +108,7 @@ public class PeriodService extends SearchService<Period> {
      *  then we must throws an exception. We must ensure only
      *  one opened period at time.
      */
-    private void mustsExistJustOneOpened(Period entity) {
+    private void mustsExistJustOneOpened() {
         Optional<Period> period = repository.findFirstByStatus(PeriodStatus.OPENED.name());
         if ( period.isPresent() )
             throw new BusinessException("period.already.exist.opened");
@@ -122,11 +121,11 @@ public class PeriodService extends SearchService<Period> {
      *  If found some conflict and exception will be throws.
      * @param entity @see {@link Period}
      */
-    private void avoidIntervalConflict(Period entity) throws ParseException {
+    private void avoidIntervalConflict(Period entity) {
         Optional<Period> period = repository.findFirstByEndDateGreaterThanEqual(entity.getInitDate());
         if ( period.isPresent() ) {
             // Build error message params
-            ArrayList<String> param = new ArrayList<String>();
+            ArrayList<String> param = new ArrayList<>();
             // TODO: In the future we must format the dates based on current locale.
             param.add(ConvertUtils.toBrazilFormat(entity.getInitDate()));
             param.add(ConvertUtils.toBrazilFormat(entity.getEndDate()));
@@ -142,7 +141,7 @@ public class PeriodService extends SearchService<Period> {
      */
     private Period hasOpenedPeriod() {
         Optional<Period> period = repository.findFirstByStatus(PeriodStatus.OPENED.name());
-        if ( !period.isPresent() )
+        if (period.isEmpty())
             throw new BusinessException("period.not.opened");
         return period.get();
     }

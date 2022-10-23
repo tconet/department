@@ -4,16 +4,19 @@ import com.department.entity.auditing.Auditable;
 import com.department.exceptions.BusinessException;
 import com.department.types.PeriodStatus;
 import com.department.utils.FieldValidatorUtil;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,7 +42,6 @@ public class Period extends Auditable<String> {
      *  rule, the end date can't be before today, the end time can't be before now
      *  and as usual, the init date can't be before the end date. If any validation fail,
      *  then an exception will be throws.
-     * @param @see {@link Period}
      */
     public void applyDateAndTimeRulesToUpdate() {
 
@@ -64,7 +66,6 @@ public class Period extends Auditable<String> {
      *  past, and the second check if the initial date is before
      *  end data. If one of those rules fails, an exception will
      *  be throws.
-     * @param @see {@link Period}
      */
     public void applyDateRulesToOpenPeriod() {
 
@@ -84,10 +85,8 @@ public class Period extends Auditable<String> {
      *  Second, Initial date is before end date?
      *  Third, The informed status has a valid value? In this case must be on of
      *  {@link PeriodStatus}.
-     *
      *  If one of those validations mentioned above is invalid, then an appropriated
      *  exception will be throws.
-     * @param @see {@link Period}
      */
     public void validateBeforeCreate() {
 
@@ -99,6 +98,19 @@ public class Period extends Auditable<String> {
 
         // Validate STATUS
         if (!PeriodStatus.isValid(getStatus()))
-            throw new BusinessException("period.invalid.status", getStatus().toString());
+            throw new BusinessException("period.invalid.status", getStatus());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Period period = (Period) o;
+        return id != null && Objects.equals(id, period.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

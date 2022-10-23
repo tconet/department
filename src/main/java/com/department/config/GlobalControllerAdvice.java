@@ -27,7 +27,7 @@ public class GlobalControllerAdvice {
      * <p>
      * This method is the main handler for all method argument errors. Generally, all error handled
      * by this method will come from the controller layer of this project.
-     * @param ex {@See MethodArgumentNotValidException}
+     * @param ex {@link MethodArgumentNotValidException}}
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -47,7 +47,7 @@ public class GlobalControllerAdvice {
     public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
 
         Map<String, String> errors = new HashMap<>();
-        Locale locale = LocaleContextHolder.getLocale();
+        // TODO: Locale locale = LocaleContextHolder.getLocale();
         String msg = ex.translate(messageSource);
         errors.put("errorMessage", msg);
         return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -61,8 +61,8 @@ public class GlobalControllerAdvice {
      * <p>
      * Builds the error message Map. Here we must consider the current configured locale, and
      * the internationalization key for each error found.
-     * @param ex {@See MethodArgumentNotValidException}
-     * @return {@See ResponseEntity} with all errors message
+     * @param ex {{@link MethodArgumentNotValidException}}
+     * @return {{@link ResponseEntity}} with all errors message
      */
     private ResponseEntity<Object> processValidationError(MethodArgumentNotValidException ex) {
 

@@ -28,14 +28,12 @@ public class DtoConverter<D, B> implements IDtoConverter<D, B> {
 
     @Override
     public D toDTO(B entity, Class<D> clazz) {
-        D dto = this.mapper.map(entity, clazz);
-        return dto;
+        return this.mapper.map(entity, clazz);
     }
 
     @Override
     public B toBusiness(D dto, Class<B> clazz) {
-        B entity = this.mapper.map(dto, clazz);
-        return entity;
+        return this.mapper.map(dto, clazz);
     }
 
     @Override
