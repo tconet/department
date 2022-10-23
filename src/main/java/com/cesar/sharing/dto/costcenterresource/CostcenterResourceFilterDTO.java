@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  *  This DTO represents all filter options to search for some Cost Center based on
@@ -19,6 +21,7 @@ public class CostcenterResourceFilterDTO {
     private String name;
     @Schema(name = "code", defaultValue="1.2.00.002")
     private String code;
+    @NotNull(message = "costCenter.field.status.mandatory")
     @Schema(name = "status", defaultValue="open")
     private String status;
     @Schema(name = "email", defaultValue="example@gmail.com")

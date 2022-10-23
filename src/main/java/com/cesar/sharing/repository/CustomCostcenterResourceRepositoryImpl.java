@@ -48,7 +48,7 @@ public class CustomCostcenterResourceRepositoryImpl implements CustomCostcenterR
 
         // SELECT section, build the result transformed based on SimpleCostCenter model.
         StringBuilder select = new StringBuilder();
-        select.append("SELECT new com.department.model.SimpleCostCenter(cr.costCenter.name, cr.costCenter.code, cr.costCenter.branch_name)");
+        select.append("SELECT new com.cesar.sharing.model.SimpleCostCenter(cr.costCenter.name, cr.costCenter.code, cr.costCenter.branch_name)");
 
         // FROM section
         StringBuilder from = new StringBuilder();

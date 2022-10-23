@@ -2,7 +2,7 @@ INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES (
 INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES ('1.0.00.002', 'EUROPA', '0001', 'RECIFE', 'open');
 INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES ('1.0.00.003', 'MOTOROLA', '0001', 'RECIFE', 'open');
 INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES ('1.0.00.004', 'DELL', '0001', 'RECIFE', 'open');
-INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES ('1.0.00.005', 'CAPITAL humanO', '0001', 'RECIFE', 'closed');
+INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES ('1.0.00.005', 'CAPITAL HUMANO', '0001', 'RECIFE', 'closed');
 INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES ('1.2.00.001', 'SISTEMAS INTERNOS', '0002', 'SÃO PAULO', 'open');
 INSERT INTO COST_CENTER  (code, name, branch_code, branch_name, status) VALUES ('1.2.00.002', 'SUPORTE', '0002', 'SÃO PAULO', 'open');
 

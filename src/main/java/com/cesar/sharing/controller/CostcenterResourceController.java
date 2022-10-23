@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public class CostcenterResourceController {
                                     array = @ArraySchema(schema = @Schema(implementation = SimpleCostCenter.class)))})
     })
     @PostMapping("/search")
-    public ResponseEntity search(@RequestBody CostcenterResourceFilterDTO filter) {
+    public ResponseEntity search(@Valid @RequestBody CostcenterResourceFilterDTO filter) {
 
         String vStatus = filter.getStatus().trim().toLowerCase();
         if (!CostCenterStatus.isValid(vStatus))
