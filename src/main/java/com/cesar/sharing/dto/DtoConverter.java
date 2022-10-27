@@ -49,4 +49,12 @@ public class DtoConverter<D, B> implements IDtoConverter<D, B> {
         }
         return dtos;
     }
+    @Override
+    public List<B> toBusiness(List<D> dtos, Class<B> clazz) {
+        List<B> entities = new ArrayList<>();
+        for (D dto: dtos) {
+            entities.add(toBusiness(dto, clazz));
+        }
+        return entities;
+    }
 }

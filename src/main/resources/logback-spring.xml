@@ -14,7 +14,7 @@
         <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
         <logger name="org.springframework" level="ERROR"/>
         <logger name="org.hibernate" level="ERROR"/>
-        <logger name="com.department" level="INFO"/>
+        <logger name="com.cesar.sharing" level="INFO"/>
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
@@ -23,7 +23,7 @@
     <springProfile name="debug">
         <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
         <logger name="org.springframework" level="ERROR"/>
-        <logger name="com.department" level="DEBUG"/>
+        <logger name="com.cesar.sharing" level="DEBUG"/>
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
@@ -51,7 +51,7 @@
         </appender>
 
         <logger name="org.springframework" level="INFO"/>
-        <logger name="com.department" level="DEBUG"/>
+        <logger name="com.cesar.sharing" level="DEBUG"/>
         <root level="ERROR">
             <appender-ref ref="FILE-ROLLING"/>
         </root>

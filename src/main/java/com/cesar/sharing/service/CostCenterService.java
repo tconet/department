@@ -68,6 +68,22 @@ public class CostCenterService extends SearchService<CostCenter> {
         repository.save(toUpdate);
     }
 
+    /**
+     * <p>
+     *  Search for a specific {@link CostCenter} based on the informed code.
+     *  If does not exist, an exception will be throws.
+     * @param code The cost center code
+     * @return @see {@link CostCenter}
+     */
+    public CostCenter findByCode(String code) {
+
+        Optional<CostCenter> optional = repository.findOneByCode(code);
+        if (optional.isEmpty())
+            throw new BusinessException("costCenter.not.found.by.code", code);
+
+        return  optional.get();
+    }
+
     // Private
 
     /**

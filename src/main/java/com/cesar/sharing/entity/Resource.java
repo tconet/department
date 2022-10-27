@@ -38,7 +38,7 @@ public class Resource extends Auditable<String> {
     private String document;
 
     /** Status, must be one of those values @see {@link ResourceStatus}, default HUMAN */
-    @Column( nullable = false, columnDefinition = "varchar(255) default 'human'")
+    @Column( nullable = false, columnDefinition = "varchar(255) default 'HUMAN'")
     private String status = ResourceStatus.HUMAN.toString();
 
     @Override

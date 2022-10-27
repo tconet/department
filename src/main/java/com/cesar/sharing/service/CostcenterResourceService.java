@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +81,31 @@ public class CostcenterResourceService  {
         CostcenterResource toUpdate = optional.get();
         toUpdate.setApprover(entity.isApprover());
         repository.save(toUpdate);
+    }
+
+    /**
+     * <p>
+     *  Validates if the relationship between the {@link Resource} "Approver" and
+     *  the {@link CostCenter} exists.
+     * @param approverEmail The approver email
+     * @param costCenterCode The {@link CostCenter} code
+     */
+    public void validateRelationship(String approverEmail, String costCenterCode) {
+
+        // Search based on resource's email and cost center code.
+        Optional<CostcenterResource> relationship = repository.findOneByResourceEmailAndCostCenterCode(
+                approverEmail, costCenterCode);
+
+        // First check if exists, if true, also check if is approver.
+        // If not, throws an exception.
+        if ( relationship.isEmpty() || !relationship.get().isApprover() ) {
+
+            // Just build the error message params
+            ArrayList<String> param = new ArrayList<>();
+            param.add(approverEmail);
+            param.add(costCenterCode);
+            throw new BusinessException("costCenter.resource.relationship.not.exist", param);
+        }
     }
 
     // Private

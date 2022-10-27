@@ -44,6 +44,18 @@ public class CostCenter extends Auditable<String> {
     @Column( nullable = false )
     private String branch_name;
 
+    /**
+     * <p>
+     *  Validates if both Cost Center have the same branch.
+     * @param costCenter @see {@link CostCenter}
+     * @return true if the branch is equals, otherwise, false.
+     */
+    public boolean hasSameBranch(CostCenter costCenter) {
+        Objects.requireNonNull(costCenter);
+        Objects.requireNonNull(costCenter.getBranch_code());
+        return costCenter.getBranch_code().equals(this.branch_code);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

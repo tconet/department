@@ -1,18 +1,15 @@
 package com.cesar.sharing.types;
 
-import com.cesar.sharing.entity.Resource;
-
 /**
  * <p>
- *  This Enum represents all available status for {@link Resource}
+ *  This Enum represents all available status for {@link com.cesar.sharing.entity.ResourceSharing}
  *  for now, we have the following values:
- *  - HUMAN
- *  - COMPANY
- *  - PHYSICAL
+ *  - OPEN
+ *  - CLOSED
  */
-public enum ResourceStatus {
+public enum ResourceSharingStatus {
 
-    HUMAN("HUMAN"), COMPANY("COMPANY"), PHYSICAL("PHYSICAL");
+    OPENED("OPENED"), APPROVED("APPROVED"), REJECTED("REJECTED");
 
     /** Enum */
     private String status;
@@ -24,22 +21,23 @@ public enum ResourceStatus {
      *  this enum.
      * @param status
      */
-    private ResourceStatus(String status) {
+    private ResourceSharingStatus(String status) {
         this.status = status;
     }
 
     /**
      * <p>
      *  Check if the string value informed is compatible with the values
-     *  exposed by this enum {@link ResourceStatus}
-     * @param value Must he one of {@link ResourceStatus}
-     * @return true if is a valid value, otherwise, false.
+     *  exposed by this enum {@link ResourceSharingStatus}
+     * @param value Must he one of {@link ResourceSharingStatus}
+     * @return true if is a valid value, otherwise, fale.
      */
     public static boolean isValid(String value) {
-        for (ResourceStatus status : values()) {
+        for (ResourceSharingStatus status : values()) {
             if (status.name().equalsIgnoreCase(value))
                 return true;
         }
         return false;
     }
+
 }

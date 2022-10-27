@@ -5,6 +5,8 @@ server:
   servlet:
     context-path: /sharing
 
+
+
 # Application
 # Give the name and a description,
 # those values came from what is configured on .pom file

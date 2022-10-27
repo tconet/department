@@ -100,7 +100,26 @@ public class PeriodService extends SearchService<Period> {
         return repository.save(period);
     }
 
+    public Period getLast() {
+        Optional<Period> period = repository.findTopByOrderByIdAsc();
+        if (period.isEmpty())
+            throw new BusinessException("period.not.exist");
+        return period.get();
+    }
+
     // Private
+
+    /**
+     * <p>
+     *  Check if exists an opened period. If not, an exception will be throws
+     * @return @see {@link Period}
+     */
+    private Period hasOpenedPeriod() {
+        Optional<Period> period = repository.findFirstByStatus(PeriodStatus.OPENED.name());
+        if (period.isEmpty())
+            throw new BusinessException("period.not.opened");
+        return period.get();
+    }
 
     /**
      * <p>
@@ -132,18 +151,6 @@ public class PeriodService extends SearchService<Period> {
             param.add(ConvertUtils.toBrazilFormat(period.get().getEndDate()));
             throw new BusinessException("period.invalid.date.interval", param);
         }
-    }
-
-    /**
-     * <p>
-     *  Check if exists an opened period. If not, an exception will be throws
-     * @return @see {@link Period}
-     */
-    private Period hasOpenedPeriod() {
-        Optional<Period> period = repository.findFirstByStatus(PeriodStatus.OPENED.name());
-        if (period.isEmpty())
-            throw new BusinessException("period.not.opened");
-        return period.get();
     }
 
 }

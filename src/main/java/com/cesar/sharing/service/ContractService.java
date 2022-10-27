@@ -11,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -34,6 +37,7 @@ public class ContractService {
      *
      * @param entity @see {@link Contract}
      */
+    @Transactional
     public void createOrUpdate(Contract entity) {
 
         // Check if already exists, if true, means UPDATE
@@ -45,14 +49,60 @@ public class ContractService {
             return;
         }
         // CREATE CASE...
-        // So, first we must fill the relationship fields
+        // Before create a new onw, we must ensure just one ACTIVE Contract at time.
+        markAsInactive(entity);
+
         // TODO: When a new contract arrives, means that we must
         //       create a new ResourceSharing
+        // Now we must fill the relationship fields
         fillRelationship(entity);
         repository.save(entity);
     }
 
+    /**
+     * <p>
+     *  Try to find an active contract based on the resource's email. If not found,
+     *  an exception will be throws, even if we found more then one active contract
+     * @param email The Contract resource's email
+     * @return @see {@link Contract}
+     */
+    public Contract findActiveContract(String email) {
+        Objects.requireNonNull(email);
+        Optional<List<Contract>> contracts = repository.findByResourceEmailAndIsActiveTrue(email);
+
+        // Must exist an active contract
+        if (contracts.get().size() == 0)
+            throw new BusinessException("contract.not.exist.active.for.resource",
+                    email);
+
+        // Can't have more than one active at time.
+        if ( contracts.get().size() > 1 )
+            throw new BusinessException("contract.more.than.one.active.for.resource",
+                    email);
+
+        // Just return the current active contract.
+        return contracts.get().get(0);
+    }
+
+
     // Private
+
+    /**
+     * <p>
+     *  Set all contract as inactive based for a specific {@link Resource}.
+     *  This function is intended to ensure just one active contract at time,
+     *  so before create a new one, we must call this function to accomplish
+     *  this rule.
+     * @param entity @see {@link Contract}
+     */
+    private void markAsInactive(Contract entity) {
+        Optional<List<Contract>> contracts = repository.findByResourceEmailAndIsActiveTrue(entity.getEmail());
+        contracts.ifPresent(contractList -> {
+            for (Contract toUpdate : contractList)
+                toUpdate.setActive(false);
+            repository.saveAll(contractList);
+        });
+    }
 
     /**
      * <p>

@@ -47,7 +47,6 @@ public class GlobalControllerAdvice {
     public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
 
         Map<String, String> errors = new HashMap<>();
-        // TODO: Locale locale = LocaleContextHolder.getLocale();
         String msg = ex.translate(messageSource);
         errors.put("errorMessage", msg);
         return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);

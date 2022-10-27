@@ -11,7 +11,20 @@ import java.util.Optional;
 @Repository
 public interface PeriodRepository extends JpaRepository<Period, Long>, JpaSpecificationExecutor<Period> {
 
+    /**
+     * <p>
+     *  Search for a specific Period based on the informed status and return the first one.
+     * @param status must be one of {@link com.cesar.sharing.types.PeriodStatus}
+     * @return @see {@link Period}
+     */
     Optional<Period> findFirstByStatus(String status);
 
     Optional<Period> findFirstByEndDateGreaterThanEqual(LocalDate date);
+
+    /**
+     * <p>
+     *  Get the last Period
+     * @return @see {@link Period}
+     */
+    Optional<Period> findTopByOrderByIdAsc();
 }
